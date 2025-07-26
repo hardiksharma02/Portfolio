@@ -40,6 +40,8 @@ export interface Project {
 export interface Skill {
   name: string;
   level: number; // percent
+  category: 'Programming' | 'Web Tech' | 'Tools' | 'Soft Skills';
+  description: string;
 }
 
 // Certification

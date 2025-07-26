@@ -1,15 +1,15 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { Box } from '@mui/material';
+import LoadingSpinner from '../components/Loading/LoadingSpinner';
 
 interface LoadingContextType {
   isLoading: boolean;
-  setLoading: (loading: boolean) => void;
   startLoading: () => void;
   stopLoading: () => void;
 }
 
 const LoadingContext = createContext<LoadingContextType>({
   isLoading: false,
-  setLoading: () => {},
   startLoading: () => {},
   stopLoading: () => {},
 });
@@ -18,10 +18,6 @@ export const useLoading = () => useContext(LoadingContext);
 
 export const LoadingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
-
-  const setLoading = useCallback((loading: boolean) => {
-    setIsLoading(loading);
-  }, []);
 
   const startLoading = useCallback(() => {
     setIsLoading(true);
@@ -32,15 +28,22 @@ export const LoadingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   }, []);
 
   return (
-    <LoadingContext.Provider
-      value={{
-        isLoading,
-        setLoading,
-        startLoading,
-        stopLoading,
-      }}
-    >
+    <LoadingContext.Provider value={{ isLoading, startLoading, stopLoading }}>
       {children}
+      {isLoading && (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 16,
+            right: 16,
+            zIndex: 9999,
+          }}
+        >
+          <LoadingSpinner size={48} />
+        </Box>
+      )}
     </LoadingContext.Provider>
   );
-}; 
+};
+
+export default LoadingContext; 

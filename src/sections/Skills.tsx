@@ -1,22 +1,27 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { skills } from '../data/skills';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { motion } from 'framer-motion';
-import SectionCard from '../components/Card/SectionCard';
-import { SvgIconProps } from '@mui/material/SvgIcon';
-import CodeIcon from '@mui/icons-material/Code';
-import LanguageIcon from '@mui/icons-material/Language';
-import BuildIcon from '@mui/icons-material/Build';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import { useTheme } from '@mui/material/styles';
+import { Tab, Tabs, IconButton, useTheme, Tooltip, Chip } from '@mui/material';
+import {
+  Code as CodeIcon,
+  Language as LanguageIcon,
+  Build as BuildIcon,
+  EmojiEvents as EmojiEventsIcon,
+  ViewModule as ViewModuleIcon,
+  ViewList as ViewListIcon,
+  Sort as SortIcon,
+  Star as StarIcon,
+} from '@mui/icons-material';
+import InteractiveSkillCard from '../components/Skills/InteractiveSkillCard';
 
-const groupIcons: Record<string, React.ReactElement<SvgIconProps>> = {
-  'Programming': <CodeIcon fontSize="medium" />,
-  'Web Tech': <LanguageIcon fontSize="medium" />,
-  'Tools': <BuildIcon fontSize="medium" />,
-  'Soft Skills': <EmojiEventsIcon fontSize="medium" />,
+const groupIcons: Record<string, React.ReactElement> = {
+  'Programming': <CodeIcon />,
+  'Web Tech': <LanguageIcon />,
+  'Tools': <BuildIcon />,
+  'Soft Skills': <EmojiEventsIcon />,
 };
 
 const iconColors: Record<string, string> = {
@@ -30,27 +35,25 @@ const skillGroups = ['Programming', 'Web Tech', 'Tools', 'Soft Skills'];
 
 const Skills: React.FC = () => {
   const theme = useTheme();
+  const [selectedGroup, setSelectedGroup] = useState(skillGroups[0]);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [sortBy, setSortBy] = useState<'name' | 'level'>('level');
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
+  // Get expertise skills
+  const expertiseSkills = useMemo(() => {
+    return skills.filter(skill => skill.level >= 85);
+  }, []);
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
+  // Filter and sort skills
+  const filteredSkills = useMemo(() => {
+    let filtered = skills.filter(s => s.category === selectedGroup);
+    if (sortBy === 'level') {
+      filtered = filtered.sort((a, b) => b.level - a.level);
+    } else {
+      filtered = filtered.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    return filtered;
+  }, [selectedGroup, sortBy]);
 
   return (
     <Box
@@ -100,109 +103,239 @@ const Skills: React.FC = () => {
           </Typography>
         </motion.div>
 
+        {/* Core Expertise Section */}
+        <Box sx={{ mb: 8 }}>
+          <Typography
+            variant="h5"
+            sx={{
+              mb: 3,
+              fontFamily: 'Google Sans',
+              fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+            }}
+          >
+            <StarIcon sx={{ color: theme.palette.primary.main }} />
+            Core Expertise
+          </Typography>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: {
+                  xs: '1fr',
+                  sm: 'repeat(2, 1fr)',
+                  md: 'repeat(3, 1fr)',
+                },
+                gap: 2,
+                p: 3,
+                borderRadius: 2,
+                background: theme.palette.mode === 'dark'
+                  ? 'rgba(255, 255, 255, 0.05)'
+                  : 'rgba(0, 0, 0, 0.02)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid',
+                borderColor: theme.palette.mode === 'dark'
+                  ? 'rgba(255, 255, 255, 0.1)'
+                  : 'rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              {expertiseSkills.map((skill, index) => (
+                <motion.div
+                  key={skill.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Box
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      background: `${iconColors[skill.category]}11`,
+                      border: '1px solid',
+                      borderColor: `${iconColors[skill.category]}22`,
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontFamily: 'Google Sans',
+                          fontWeight: 600,
+                          color: iconColors[skill.category],
+                        }}
+                      >
+                        {skill.name}
+                      </Typography>
+                      <Chip
+                        size="small"
+                        icon={<StarIcon sx={{ fontSize: '1rem !important' }} />}
+                        label={`${skill.level}%`}
+                        sx={{
+                          background: `${iconColors[skill.category]}22`,
+                          color: iconColors[skill.category],
+                          '.MuiChip-icon': {
+                            color: 'inherit',
+                          },
+                        }}
+                      />
+                    </Box>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: theme.palette.text.secondary,
+                        fontSize: '0.875rem',
+                      }}
+                    >
+                      {skill.description}
+                    </Typography>
+                    <Box
+                      sx={{
+                        mt: 'auto',
+                        height: 4,
+                        background: theme.palette.mode === 'dark'
+                          ? 'rgba(255, 255, 255, 0.1)'
+                          : 'rgba(0, 0, 0, 0.1)',
+                        borderRadius: 2,
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${skill.level}%` }}
+                        transition={{ duration: 1, delay: index * 0.1 }}
+                        style={{
+                          height: '100%',
+                          background: `linear-gradient(90deg, ${iconColors[skill.category]}aa, ${iconColors[skill.category]})`,
+                          borderRadius: 'inherit',
+                        }}
+                      />
+                    </Box>
+                  </Box>
+                </motion.div>
+              ))}
+            </Box>
+          </motion.div>
+        </Box>
+
+        {/* Skills Navigation */}
+        <Box 
+          sx={{ 
+            mb: 4, 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: 2,
+          }}
+        >
+          <Tabs
+            value={selectedGroup}
+            onChange={(_, value) => setSelectedGroup(value)}
+            sx={{
+              minHeight: 48,
+              '& .MuiTab-root': {
+                fontFamily: 'Google Sans',
+                color: theme.palette.text.primary,
+                minHeight: 48,
+                '&.Mui-selected': {
+                  color: theme.palette.primary.main,
+                },
+              },
+            }}
+          >
+            {skillGroups.map((group) => (
+              <Tab
+                key={group}
+                label={group}
+                value={group}
+                icon={groupIcons[group]}
+                iconPosition="start"
+              />
+            ))}
+          </Tabs>
+
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Tooltip title={`Sort by ${sortBy === 'level' ? 'name' : 'proficiency'}`}>
+              <IconButton
+                onClick={() => setSortBy(sortBy === 'level' ? 'name' : 'level')}
+                sx={{ 
+                  color: theme.palette.primary.main,
+                  background: theme.palette.mode === 'dark' 
+                    ? 'rgba(255,255,255,0.05)' 
+                    : 'rgba(0,0,0,0.05)',
+                }}
+              >
+                <SortIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={`Switch to ${viewMode === 'grid' ? 'list' : 'grid'} view`}>
+              <IconButton
+                onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+                sx={{ 
+                  color: theme.palette.primary.main,
+                  background: theme.palette.mode === 'dark' 
+                    ? 'rgba(255,255,255,0.05)' 
+                    : 'rgba(0,0,0,0.05)',
+                }}
+              >
+                {viewMode === 'grid' ? <ViewListIcon /> : <ViewModuleIcon />}
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Box>
+
+        {/* Skills Grid */}
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          key={`${selectedGroup}-${viewMode}-${sortBy}`}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
         >
           <Box
             sx={{
               display: 'grid',
-              gridTemplateColumns: {
-                xs: '1fr',
-                sm: '1fr 1fr',
-                md: 'repeat(4, 1fr)',
-              },
-              gap: 4,
+              gridTemplateColumns: viewMode === 'grid'
+                ? {
+                    xs: '1fr',
+                    sm: 'repeat(2, 1fr)',
+                    md: 'repeat(3, 1fr)',
+                  }
+                : '1fr',
+              gap: 3,
             }}
           >
-            {skillGroups.map((group) => (
-              <motion.div key={group} variants={cardVariants}>
-                <SectionCard
-                  sx={{
-                    height: '100%',
-                    background: theme.palette.background.paper,
-                    transition: 'transform 0.3s ease-in-out',
-                    '&:hover': {
-                      transform: 'translateY(-8px)',
-                    },
-                  }}
-                >
-                  <Box display="flex" alignItems="center" mb={3} gap={2}>
-                    <Box
-                      sx={{
-                        background: theme.palette.mode === 'dark'
-                          ? `${iconColors[group]}22`
-                          : `${iconColors[group]}11`,
-                        borderRadius: '50%',
-                        p: 1.5,
-                        display: 'flex',
-                        alignItems: 'center',
-                        color: iconColors[group],
-                      }}
-                    >
-                      {groupIcons[group]}
-                    </Box>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        fontFamily: 'Google Sans',
-                        fontWeight: 600,
-                        color: theme.palette.text.primary,
-                      }}
-                    >
-                      {group}
-                    </Typography>
-                  </Box>
-
-                  {skills.filter(s => s.category === group).map((skill) => (
-                    <Box key={skill.name} mb={2.5}>
-                      <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-                        <Typography
-                          sx={{
-                            fontFamily: 'Google Sans',
-                            color: theme.palette.text.primary,
-                            fontSize: '0.95rem',
-                          }}
-                        >
-                          {skill.name}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontFamily: 'Google Sans',
-                            color: theme.palette.text.secondary,
-                            fontSize: '0.9rem',
-                          }}
-                        >
-                          {skill.level}%
-                        </Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          height: 6,
-                          borderRadius: 3,
-                          background: theme.palette.mode === 'dark'
-                            ? 'rgba(255, 255, 255, 0.12)'
-                            : 'rgba(0, 0, 0, 0.08)',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${skill.level}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 1, ease: "easeOut" }}
-                          style={{
-                            height: '100%',
-                            background: iconColors[group],
-                            borderRadius: 'inherit',
-                          }}
-                        />
-                      </Box>
-                    </Box>
-                  ))}
-                </SectionCard>
+            {filteredSkills.map((skill, index) => (
+              <motion.div
+                key={skill.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                layout
+              >
+                <InteractiveSkillCard
+                  name={skill.name}
+                  level={skill.level}
+                  color={iconColors[selectedGroup]}
+                  icon={groupIcons[selectedGroup]}
+                  description={skill.description}
+                />
               </motion.div>
             ))}
           </Box>
