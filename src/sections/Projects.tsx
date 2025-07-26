@@ -1,65 +1,236 @@
 import React from 'react';
+import { Box, Typography, Grid, Card, CardContent, CardActions, Button, Chip } from '@mui/material';
+import { GitHub as GitHubIcon, Launch as LaunchIcon } from '@mui/icons-material';
+import { motion } from 'framer-motion';
 import { projects } from '../data/projects';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
+import { useTheme } from '@mui/material/styles';
 
-const techColors: Record<string, string> = {
-  'HTML': '#1976d2',
-  'CSS': '#1976d2',
-  'JavaScript': '#fbc02d',
-  'FastAPI': '#43a047',
-  'ReactJS': '#43a047',
-  'Ant Design': '#1976d2',
-  'NodeJS': '#8e24aa',
-  'CSV Processing': '#fbc02d',
-};
+const Projects: React.FC = () => {
+  const theme = useTheme();
 
-const Projects: React.FC = () => (
-  <Box id="projects" sx={{ py: 10, background: '#f5f6fa' }}>
-    <Typography variant="h4" align="center" sx={{ mb: 1, fontFamily: 'Google Sans', fontWeight: 700 }}>
-      Projects
-    </Typography>
-    <Typography align="center" sx={{ mb: 4, color: '#888', fontFamily: 'Google Sans' }}>
-      Innovative solutions I've built
-    </Typography>
-    <Grid container spacing={4} justifyContent="center">
-      {projects.map((project, idx) => (
-        <Grid key={project.name} size={{ xs: 12, sm: 12, md: 6 }}>
-          <Card sx={{ minHeight: 320, background: '#fff', boxShadow: '0 2px 16px 0 rgba(25,118,210,0.08)', borderRadius: 3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            {/* Project image placeholder */}
-            <Box sx={{ height: 180, background: '#e3f0ff', borderTopLeftRadius: 12, borderTopRightRadius: 12, backgroundSize: 'cover', backgroundPosition: 'center', mb: 2 }}>
-              {/* You can add <img src={project.image} ... /> here if you have images */}
-            </Box>
-            <CardContent>
-              <Typography variant="h6" sx={{ fontFamily: 'Google Sans', fontWeight: 700, color: '#222', mb: 1 }}>{project.name}</Typography>
-              <Typography sx={{ fontFamily: 'Google Sans', color: '#888', mb: 1 }}>{project.description}</Typography>
-              <Typography sx={{ fontFamily: 'Google Sans', fontWeight: 500, fontSize: 15, mb: 1 }}>Technologies:</Typography>
-              <Box sx={{ mb: 1 }}>
-                {project.technologies.map((tech) => (
-                  <Chip key={tech} label={tech} size="small" sx={{ fontFamily: 'Google Sans', fontWeight: 500, mr: 1, mb: 1, background: techColors[tech] || '#e0e0e0', color: '#fff' }} />
-                ))}
-              </Box>
-              {project.features && project.features.map((f, i) => (
-                <Typography key={i} sx={{ fontFamily: 'Google Sans', fontSize: 14, color: '#1976d2', mb: 0.5 }}>
-                  {f}
-                </Typography>
-              ))}
-            </CardContent>
-            <CardActions sx={{ px: 2, pb: 2 }}>
-              <Button size="small" variant="contained" color="primary" sx={{ fontFamily: 'Google Sans', borderRadius: 2 }} disabled>GitHub</Button>
-              <Button size="small" variant="outlined" color="primary" sx={{ fontFamily: 'Google Sans', borderRadius: 2, ml: 1 }} disabled>Live Demo</Button>
-            </CardActions>
-          </Card>
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
+  return (
+    <Box
+      id="projects"
+      sx={{
+        py: 8,
+        px: 2,
+        background: theme.palette.mode === 'dark'
+          ? 'linear-gradient(135deg, #0a1929 0%, #132f4c 100%)'
+          : 'linear-gradient(135deg, #e3f0ff 0%, #f5f9ff 100%)',
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
+        <Typography
+          variant="h2"
+          align="center"
+          sx={{
+            mb: 2,
+            fontFamily: 'Google Sans',
+            fontWeight: 700,
+            background: theme.palette.gradient.primary,
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            color: 'transparent',
+          }}
+        >
+          Projects
+        </Typography>
+        <Typography
+          variant="h6"
+          align="center"
+          sx={{
+            mb: 6,
+            color: theme.palette.mode === 'dark'
+              ? theme.palette.text.secondary
+              : theme.palette.text.primary,
+            fontFamily: 'Google Sans',
+          }}
+        >
+          Showcasing my technical expertise and creativity
+        </Typography>
+      </motion.div>
+
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <Grid container spacing={4}>
+          {projects.map((project, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <motion.div variants={itemVariants}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    background: theme.palette.mode === 'dark'
+                      ? 'rgba(255, 255, 255, 0.05)'
+                      : 'rgba(255, 255, 255, 0.8)',
+                    backdropFilter: 'blur(10px)',
+                    borderRadius: 2,
+                    overflow: 'hidden',
+                    boxShadow: theme.palette.mode === 'dark'
+                      ? '0 4px 20px rgba(0, 0, 0, 0.3)'
+                      : '0 4px 20px rgba(0, 0, 0, 0.1)',
+                    transition: 'all 0.3s ease-in-out',
+                    '&:hover': {
+                      transform: 'translateY(-8px)',
+                      boxShadow: theme.palette.mode === 'dark'
+                        ? '0 8px 30px rgba(0, 0, 0, 0.4)'
+                        : '0 8px 30px rgba(0, 0, 0, 0.15)',
+                    },
+                  }}
+                >
+                  {project.image && (
+                    <Box
+                      sx={{
+                        height: 200,
+                        background: `url(${project.image})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                      }}
+                    />
+                  )}
+                  <CardContent sx={{ flexGrow: 1, p: 3 }}>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="h2"
+                      sx={{
+                        fontFamily: 'Google Sans',
+                        fontWeight: 600,
+                        color: theme.palette.mode === 'dark'
+                          ? theme.palette.primary.light
+                          : theme.palette.primary.main,
+                        mb: 2,
+                      }}
+                    >
+                      {project.name}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        mb: 3,
+                        color: theme.palette.mode === 'dark'
+                          ? theme.palette.text.secondary
+                          : theme.palette.text.primary,
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      {project.description}
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
+                      {project.technologies.map((tech, techIndex) => (
+                        <Chip
+                          key={techIndex}
+                          label={tech}
+                          size="small"
+                          sx={{
+                            fontFamily: 'Google Sans',
+                            background: theme.palette.gradient.primary,
+                            color: '#fff',
+                            fontWeight: 500,
+                          }}
+                        />
+                      ))}
+                    </Box>
+                    {project.features && (
+                      <Box sx={{ mt: 2 }}>
+                        {project.features.map((feature, featureIndex) => (
+                          <Typography
+                            key={featureIndex}
+                            variant="body2"
+                            sx={{
+                              color: theme.palette.mode === 'dark'
+                                ? theme.palette.text.secondary
+                                : theme.palette.text.primary,
+                              display: 'flex',
+                              alignItems: 'center',
+                              mb: 1,
+                              '&:before': {
+                                content: '"•"',
+                                marginRight: 1,
+                                color: theme.palette.primary.main,
+                              },
+                            }}
+                          >
+                            {feature}
+                          </Typography>
+                        ))}
+                      </Box>
+                    )}
+                  </CardContent>
+                  <CardActions sx={{ p: 2, pt: 0 }}>
+                    <Button
+                      size="small"
+                      startIcon={<GitHubIcon />}
+                      disabled
+                      sx={{
+                        color: theme.palette.mode === 'dark'
+                          ? theme.palette.primary.light
+                          : theme.palette.primary.main,
+                        '&.Mui-disabled': {
+                          color: theme.palette.mode === 'dark'
+                            ? 'rgba(255, 255, 255, 0.3)'
+                            : 'rgba(0, 0, 0, 0.3)',
+                        },
+                      }}
+                    >
+                      GitHub
+                    </Button>
+                    <Button
+                      size="small"
+                      startIcon={<LaunchIcon />}
+                      disabled
+                      sx={{
+                        color: theme.palette.mode === 'dark'
+                          ? theme.palette.primary.light
+                          : theme.palette.primary.main,
+                        '&.Mui-disabled': {
+                          color: theme.palette.mode === 'dark'
+                            ? 'rgba(255, 255, 255, 0.3)'
+                            : 'rgba(0, 0, 0, 0.3)',
+                        },
+                      }}
+                    >
+                      Demo
+                    </Button>
+                  </CardActions>
+                </Card>
+              </motion.div>
+            </Grid>
+          ))}
         </Grid>
-      ))}
-    </Grid>
-  </Box>
-);
+      </motion.div>
+    </Box>
+  );
+};
 
 export default Projects; 
