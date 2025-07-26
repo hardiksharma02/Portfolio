@@ -141,7 +141,7 @@ const Header: React.FC = () => {
             }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            Portfolio
+            Hardik Sharma
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
