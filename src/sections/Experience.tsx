@@ -38,7 +38,8 @@ const Experience: React.FC = () => {
     <Box
       id="experience"
       sx={{
-        py: 10,
+        py: { xs: 8, md: 12 },
+        pb: { xs: 12, md: 16 }, // Increased bottom padding
         background: (theme: Theme) => theme.palette.mode === 'dark'
           ? 'linear-gradient(135deg, #0a1929 0%, #132f4c 100%)'
           : 'linear-gradient(135deg, #e3f0ff 0%, #f5f9ff 100%)',
@@ -63,14 +64,22 @@ const Experience: React.FC = () => {
         align="center"
         variant="h6"
         sx={{
-          mb: 4,
+          mb: { xs: 6, md: 8 }, // Increased margin bottom
           color: (theme: Theme) => theme.palette.text.secondary,
           fontFamily: 'Google Sans',
         }}
       >
         Professional internships and work experience
       </Typography>
-      <Grid container spacing={4} justifyContent="center">
+      <Grid 
+        container 
+        spacing={4} 
+        justifyContent="center"
+        sx={{
+          px: { xs: 2, sm: 4, md: 6 }, // Added horizontal padding
+          mb: { xs: 4, md: 6 } // Added margin bottom
+        }}
+      >
         {experience.map((exp) => (
           <Grid item key={exp.title} xs={12} sm={6} md={4}>
             <SectionCard
@@ -80,20 +89,23 @@ const Experience: React.FC = () => {
                   ? '0 4px 24px 0 rgba(0,0,0,0.3)'
                   : '0 2px 16px 0 rgba(25,118,210,0.08)',
                 borderRadius: 3,
-                p: 3,
+                p: { xs: 3, md: 4 }, // Increased padding
                 height: '100%',
-                transition: 'transform 0.3s ease-in-out',
+                transition: 'all 0.3s ease-in-out',
                 '&:hover': {
                   transform: 'translateY(-4px)',
+                  boxShadow: (theme: Theme) => theme.palette.mode === 'dark'
+                    ? '0 8px 32px 0 rgba(0,0,0,0.4)'
+                    : '0 4px 24px 0 rgba(25,118,210,0.12)',
                 },
               }}
             >
-              <Box display="flex" alignItems="center" mb={2} gap={1}>
+              <Box display="flex" alignItems="center" mb={3} gap={1.5}>
                 <Box
                   sx={{
                     background: getIconBgColor(exp.title as ExperienceTitle),
                     borderRadius: '50%',
-                    p: 1.2,
+                    p: 1.5, // Increased padding
                     display: 'flex',
                     alignItems: 'center',
                     mr: 1,
@@ -118,7 +130,7 @@ const Experience: React.FC = () => {
                   fontFamily: 'Google Sans',
                   color: (theme: Theme) => theme.palette.primary.main,
                   fontWeight: 500,
-                  mb: 1,
+                  mb: 1.5, // Increased margin
                 }}
               >
                 {exp.company}
@@ -128,12 +140,12 @@ const Experience: React.FC = () => {
                   fontFamily: 'Google Sans',
                   color: (theme: Theme) => theme.palette.text.secondary,
                   fontSize: 15,
-                  mb: 1,
+                  mb: 2, // Increased margin
                 }}
               >
                 {exp.duration} &bull; {exp.location}
               </Typography>
-              <ul style={{ margin: 0, paddingLeft: 20 }}>
+              <ul style={{ margin: 0, paddingLeft: 20, marginBottom: 8 }}> {/* Added margin bottom */}
                 {exp.description.map((desc, i) => (
                   <li
                     key={i}
@@ -141,7 +153,8 @@ const Experience: React.FC = () => {
                       fontFamily: 'Google Sans',
                       fontSize: 15,
                       color: isDark ? theme.palette.text.secondary : '#444',
-                      marginBottom: 4,
+                      marginBottom: 8, // Increased margin
+                      lineHeight: 1.5, // Added line height
                     }}
                   >
                     {desc}

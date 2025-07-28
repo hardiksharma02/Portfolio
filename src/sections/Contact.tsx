@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -8,6 +8,10 @@ import { motion } from 'framer-motion';
 import { Send as SendIcon } from '@mui/icons-material';
 import SectionCard from '../components/Card/SectionCard';
 import { useTheme } from '@mui/material/styles';
+import emailjs from '@emailjs/browser';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import { emailConfig } from '../config/emailjs';
 
 interface FormData {
   name: string;
@@ -17,33 +21,78 @@ interface FormData {
 
 const Contact: React.FC = () => {
   const theme = useTheme();
+  const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success' as 'success' | 'error'
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    // Map form field names to state field names
+    const fieldMap: { [key: string]: string } = {
+      from_name: 'name',
+      from_email: 'email',
+      message: 'message'
+    };
+    const stateField = fieldMap[name] || name;
+    setFormData(prev => ({ ...prev, [stateField]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!form.current) return;
+    
     setIsSubmitting(true);
     
     try {
-      // Here you would typically send the form data to your backend
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated API call
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', message: '' });
+      console.log('Attempting to send email with EmailJS...');
+      
+      const result = await emailjs.sendForm(
+        emailConfig.serviceId,
+        emailConfig.templateId,
+        form.current,
+        emailConfig.publicKey
+      );
+
+      console.log('EmailJS response:', result);
+
+      if (result.text === 'OK') {
+        setSnackbar({
+          open: true,
+          message: 'Message sent successfully! I\'ll get back to you soon.',
+          severity: 'success'
+        });
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        throw new Error(`Failed to send message: ${result.text}`);
+      }
     } catch (error) {
-      setSubmitStatus('error');
+      console.error('Error sending email:', error);
+      let errorMessage = 'Oops! Something went wrong. Please try again later.';
+      if (error instanceof Error) {
+        console.error('Error details:', error.message);
+        errorMessage = `Error: ${error.message}`;
+      }
+      setSnackbar({
+        open: true,
+        message: errorMessage,
+        severity: 'error'
+      });
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbar(prev => ({ ...prev, open: false }));
   };
 
   return (
@@ -82,13 +131,13 @@ const Contact: React.FC = () => {
         </motion.div>
 
         <SectionCard>
-          <form onSubmit={handleSubmit}>
+          <form ref={form} onSubmit={handleSubmit}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               <TextField
                 required
                 fullWidth
                 label="Name"
-                name="name"
+                name="from_name"
                 value={formData.name}
                 onChange={handleChange}
                 variant="outlined"
@@ -103,7 +152,7 @@ const Contact: React.FC = () => {
                 required
                 fullWidth
                 label="Email"
-                name="email"
+                name="from_email"
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
@@ -131,6 +180,16 @@ const Contact: React.FC = () => {
                 InputLabelProps={{
                   sx: { fontFamily: 'Google Sans' },
                 }}
+              />
+              <input 
+                type="hidden" 
+                name="to_name" 
+                value="Hardik Sharma" 
+              />
+              <input 
+                type="hidden" 
+                name="to_email" 
+                value="hardiksharma02102003@gmail.com" 
               />
               <Button
                 type="submit"
@@ -163,44 +222,23 @@ const Contact: React.FC = () => {
               </Button>
             </Box>
           </form>
-
-          {submitStatus === 'success' && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Typography
-                sx={{
-                  mt: 2,
-                  color: 'success.main',
-                  fontFamily: 'Google Sans',
-                }}
-              >
-                Message sent successfully! I'll get back to you soon.
-              </Typography>
-            </motion.div>
-          )}
-
-          {submitStatus === 'error' && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Typography
-                sx={{
-                  mt: 2,
-                  color: 'error.main',
-                  fontFamily: 'Google Sans',
-                }}
-              >
-                Oops! Something went wrong. Please try again later.
-              </Typography>
-            </motion.div>
-          )}
         </SectionCard>
       </Container>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbar.severity}
+          sx={{ width: '100%', fontFamily: 'Google Sans' }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

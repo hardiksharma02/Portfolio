@@ -142,53 +142,10 @@ const InteractiveSkillCard: React.FC<InteractiveSkillCardProps> = ({
             </Typography>
           )}
 
-          {/* Progress bar container */}
-          <Box
-            sx={{
-              position: 'relative',
-              height: 8,
-              background: theme.palette.mode === 'dark'
-                ? 'rgba(255, 255, 255, 0.1)'
-                : 'rgba(0, 0, 0, 0.1)',
-              borderRadius: 4,
-              overflow: 'hidden',
-              transform: 'translateZ(20px)',
-              mt: 'auto',
-            }}
-          >
-            {/* Progress bar */}
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${level}%` }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              style={{
-                height: '100%',
-                background: `linear-gradient(90deg, ${color}aa, ${color})`,
-                borderRadius: 'inherit',
-              }}
-            />
-
-            {/* Percentage label */}
-            <Typography
-              variant="caption"
-              sx={{
-                position: 'absolute',
-                right: 1,
-                top: '50%',
-                transform: 'translate(0, -50%)',
-                color: theme.palette.text.primary,
-                fontWeight: 600,
-                px: 1,
-              }}
-            >
-              {level}%
-            </Typography>
-          </Box>
-
           {/* Skill level indicator */}
           <Box
             sx={{
-              mt: 2,
+              mt: 'auto',
               display: 'flex',
               alignItems: 'center',
               gap: 0.5,
