@@ -1,46 +1,140 @@
-# Getting Started with Create React App
+# Hardik Sharma's Portfolio 🚀
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, responsive portfolio website built with React, TypeScript, and Material-UI. Features a clean design, smooth animations, and a dark/light theme toggle.
 
-## Available Scripts
+![Portfolio Preview](public/preview.png)
 
-In the project directory, you can run:
+## ✨ Features
 
-### `npm start`
+- 🎨 Modern UI/UX with Material Design
+- 🌓 Dark/Light Theme Toggle
+- 📱 Fully Responsive Design
+- 🎭 Smooth Animations with Framer Motion
+- 💻 Interactive Project Cards
+- 🔧 Skills Visualization
+- 📧 Contact Form with EmailJS Integration
+- 🎯 Smooth Scrolling
+- 🔍 SEO Optimized
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🛠️ Built With
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- [React](https://reactjs.org/) - Frontend Framework
+- [TypeScript](https://www.typescriptlang.org/) - Type Safety
+- [Material-UI](https://mui.com/) - UI Components
+- [Framer Motion](https://www.framer.com/motion/) - Animations
+- [EmailJS](https://www.emailjs.com/) - Email Integration
+- [Google Fonts](https://fonts.google.com/) - Typography
 
-### `npm test`
+## 🚀 Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- Node.js (v14 or higher)
+- npm or yarn
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/portfolio.git
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+```
 
-### `npm run eject`
+3. Create a `.env` file in the root directory and add your EmailJS credentials:
+```env
+REACT_APP_EMAILJS_SERVICE_ID=your_service_id
+REACT_APP_EMAILJS_TEMPLATE_ID=your_template_id
+REACT_APP_EMAILJS_PUBLIC_KEY=your_public_key
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+4. Start the development server
+```bash
+npm start
+# or
+yarn start
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📁 Project Structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+src/
+├── components/     # Reusable UI components
+├── sections/       # Main page sections
+├── data/          # Static content
+├── theme/         # Theme configuration
+├── types/         # TypeScript types
+├── context/       # React context providers
+└── config/        # Configuration files
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 📱 Responsive Design
 
-## Learn More
+The portfolio is fully responsive and optimized for:
+- 📱 Mobile devices (320px and up)
+- 📱 Tablets (768px and up)
+- 💻 Desktops (1024px and up)
+- 🖥️ Large screens (1440px and up)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## ✨ Key Components
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Interactive Skill Cards**: Visual representation of skills with hover effects
+- **Project Showcase**: Detailed project cards with links and descriptions
+- **Experience Timeline**: Professional experience with company details
+- **Contact Form**: EmailJS integration for direct messaging
+- **Floating Menu**: Quick navigation with theme toggle
+- **Smooth Transitions**: Page transitions and scroll animations
+
+## 🎨 Customization
+
+1. Theme Colors
+   - Edit `src/theme/index.ts` to customize colors and theme settings
+
+2. Content
+   - Update files in `src/data/` to modify content
+   - Modify section components in `src/sections/` for layout changes
+
+3. Styling
+   - Material-UI theme customization
+   - CSS-in-JS with styled-components
+   - Custom animations with Framer Motion
+
+## 🚀 Deployment
+
+The portfolio can be easily deployed to:
+- [Vercel](https://vercel.com)
+- [Netlify](https://netlify.com)
+- [GitHub Pages](https://pages.github.com)
+
+Example deployment command:
+```bash
+npm run build
+# or
+yarn build
+```
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contact
+
+Hardik Sharma - [hardiksharma02102003@gmail.com](mailto:hardiksharma02102003@gmail.com)
+
+Project Link: [https://github.com/yourusername/portfolio](https://github.com/yourusername/portfolio)
+
+## 🙏 Acknowledgments
+
+- [Material-UI](https://mui.com/) for the amazing UI components
+- [Framer Motion](https://www.framer.com/motion/) for smooth animations
+- [EmailJS](https://www.emailjs.com/) for the contact form functionality
+- [React Icons](https://react-icons.github.io/react-icons/) for the icon set
+
+---
+
+Made with ❤️ by Hardik Sharma
