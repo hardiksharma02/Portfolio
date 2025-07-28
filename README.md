@@ -2,8 +2,6 @@
 
 A modern, responsive portfolio website built with React, TypeScript, and Material-UI. Features a clean design, smooth animations, and a dark/light theme toggle.
 
-![Portfolio Preview](public/preview.png)
-
 ## ✨ Features
 
 - 🎨 Modern UI/UX with Material Design
@@ -36,7 +34,7 @@ A modern, responsive portfolio website built with React, TypeScript, and Materia
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/portfolio.git
+git clone https://github.com/hardiksharma02/Portfolio.git
 ```
 
 2. Install dependencies
@@ -104,19 +102,6 @@ The portfolio is fully responsive and optimized for:
    - CSS-in-JS with styled-components
    - Custom animations with Framer Motion
 
-## 🚀 Deployment
-
-The portfolio can be easily deployed to:
-- [Vercel](https://vercel.com)
-- [Netlify](https://netlify.com)
-- [GitHub Pages](https://pages.github.com)
-
-Example deployment command:
-```bash
-npm run build
-# or
-yarn build
-```
 
 ## 📝 License
 
@@ -126,7 +111,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Hardik Sharma - [hardiksharma02102003@gmail.com](mailto:hardiksharma02102003@gmail.com)
 
-Project Link: [https://github.com/yourusername/portfolio](https://github.com/yourusername/portfolio)
+Project Link: [https://github.com/hardiksharma02/Portfolio](https://github.com/hardiksharma02/Portfolio)
 
 ## 🙏 Acknowledgments
 
