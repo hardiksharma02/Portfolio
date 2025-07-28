@@ -175,12 +175,17 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
           <motion.div
             style={{
               transform: 'translateZ(20px)',
+              display: 'flex',
+              gap: 1
             }}
           >
             <Button
               size="small"
               startIcon={<GitHubIcon />}
-              disabled
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              disabled={!project.githubUrl}
               sx={{
                 color: theme.palette.mode === 'dark'
                   ? theme.palette.primary.light
@@ -189,28 +194,35 @@ const ProjectCard: React.FC<{ project: any; index: number }> = ({ project, index
                   color: theme.palette.mode === 'dark'
                     ? 'rgba(255, 255, 255, 0.3)'
                     : 'rgba(0, 0, 0, 0.3)',
+                },
+                '&:hover': {
+                  transform: 'translateY(-2px)',
+                  transition: 'transform 0.2s ease-in-out',
                 },
               }}
             >
               GitHub
             </Button>
-            <Button
-              size="small"
-              startIcon={<LaunchIcon />}
-              disabled
-              sx={{
-                color: theme.palette.mode === 'dark'
-                  ? theme.palette.primary.light
-                  : theme.palette.primary.main,
-                '&.Mui-disabled': {
+            {project.demoUrl && (
+              <Button
+                size="small"
+                startIcon={<LaunchIcon />}
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
                   color: theme.palette.mode === 'dark'
-                    ? 'rgba(255, 255, 255, 0.3)'
-                    : 'rgba(0, 0, 0, 0.3)',
-                },
-              }}
-            >
-              Demo
-            </Button>
+                    ? theme.palette.primary.light
+                    : theme.palette.primary.main,
+                  '&:hover': {
+                    transform: 'translateY(-2px)',
+                    transition: 'transform 0.2s ease-in-out',
+                  },
+                }}
+              >
+                Demo
+              </Button>
+            )}
           </motion.div>
         </CardActions>
       </Card>

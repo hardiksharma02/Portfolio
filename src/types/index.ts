@@ -34,6 +34,7 @@ export interface Project {
   technologies: string[];
   features?: string[];
   image?: string;
+  githubUrl?: string;
 }
 
 // Skill

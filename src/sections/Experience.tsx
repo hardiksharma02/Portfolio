@@ -9,12 +9,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import ScienceIcon from '@mui/icons-material/Science';
 import { useTheme, Theme } from '@mui/material/styles';
 
-type ExperienceTitle = 'Backend Developer - SDE' | 'Research Analyst' | 'AI ML Research Intern';
+type ExperienceTitle = 'Backend Developer - SDE' | 'Research Analyst' | 'Research Intern';
 
 const iconColors: Record<ExperienceTitle, string> = {
   'Backend Developer - SDE': '#1976d2',
   'Research Analyst': '#43a047',
-  'AI ML Research Intern': '#fbc02d',
+  'Research Intern': '#9c27b0',
 };
 
 const Experience: React.FC = () => {
@@ -31,7 +31,7 @@ const Experience: React.FC = () => {
   const iconMap: Record<ExperienceTitle, React.ReactNode> = {
     'Backend Developer - SDE': <WorkIcon sx={{ color: iconColors['Backend Developer - SDE'] }} fontSize="medium" />,
     'Research Analyst': <SearchIcon sx={{ color: iconColors['Research Analyst'] }} fontSize="medium" />,
-    'AI ML Research Intern': <ScienceIcon sx={{ color: iconColors['AI ML Research Intern'] }} fontSize="medium" />,
+    'Research Intern': <ScienceIcon sx={{ color: iconColors['Research Intern'] }} fontSize="medium" />,
   };
 
   return (

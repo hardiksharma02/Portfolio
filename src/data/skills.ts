@@ -4,53 +4,53 @@ export const skills: Skill[] = [
   // Programming Languages
   {
     name: 'Java',
-    level: 80,
+    level: 85,
     category: 'Programming',
-    description: 'Core Java, Spring Boot, JUnit, Maven',
-  },
-  {
-    name: 'C/C++',
-    level: 75,
-    category: 'Programming',
-    description: 'Data Structures, Algorithms, System Programming',
+    description: 'Core Java, Spring Boot, JUnit, Maven, Enterprise Applications',
   },
   {
     name: 'Python',
     level: 85,
     category: 'Programming',
-    description: 'Django, Flask, Data Science, Machine Learning',
+    description: 'Data Structures & Algorithms, Data Science, Machine Learning',
+  },
+  {
+    name: 'Go',
+    level: 80,
+    category: 'Programming',
+    description: 'Backend Development, Microservices, System Programming',
   },
   {
     name: 'JavaScript',
     level: 90,
     category: 'Programming',
-    description: 'ES6+, TypeScript, Node.js',
+    description: 'ES6+, TypeScript, Node.js, Full-Stack Development',
   },
 
   // Web Technologies
   {
-    name: 'ReactJS',
+    name: 'Back-End Development',
+    level: 90,
+    category: 'Web Tech',
+    description: 'API Design, Database Architecture, Server Management',
+  },
+  {
+    name: 'Microservices',
+    level: 85,
+    category: 'Web Tech',
+    description: 'Service Architecture, API Gateway, Container Orchestration',
+  },
+  {
+    name: 'Web Services API',
+    level: 90,
+    category: 'Web Tech',
+    description: 'RESTful APIs, GraphQL, API Security, Documentation',
+  },
+  {
+    name: 'Cloud Technologies',
     level: 80,
     category: 'Web Tech',
-    description: 'Redux, Next.js, Material-UI, Styled Components',
-  },
-  {
-    name: 'NodeJS',
-    level: 75,
-    category: 'Web Tech',
-    description: 'Express, REST APIs, GraphQL',
-  },
-  {
-    name: 'HTML/CSS',
-    level: 85,
-    category: 'Web Tech',
-    description: 'Semantic HTML5, CSS3, SASS, Responsive Design',
-  },
-  {
-    name: 'TypeScript',
-    level: 85,
-    category: 'Web Tech',
-    description: 'Type Systems, Interfaces, Generics',
+    description: 'Google Cloud, Docker, Kubernetes, Cloud Architecture',
   },
 
   // Tools & Technologies
@@ -67,30 +67,30 @@ export const skills: Skill[] = [
     description: 'Containerization, Docker Compose, Kubernetes',
   },
   {
-    name: 'Postman',
+    name: 'Database Systems',
     level: 85,
     category: 'Tools',
-    description: 'API Testing, Automation, Documentation',
+    description: 'SQL, MongoDB, Database Design, Query Optimization',
   },
   {
-    name: 'MongoDB',
-    level: 80,
+    name: 'Development Tools',
+    level: 85,
     category: 'Tools',
-    description: 'Database Design, Aggregation, Indexing',
+    description: 'Postman, Swagger, IDE Tools, Testing Frameworks',
   },
 
   // Soft Skills
   {
-    name: 'Team Management',
-    level: 85,
+    name: 'Team Leadership',
+    level: 90,
     category: 'Soft Skills',
-    description: 'Leadership, Team Building, Conflict Resolution',
+    description: 'Team Management, Event Organization, Project Coordination',
   },
   {
-    name: 'Marketing',
-    level: 80,
+    name: 'Research & Analysis',
+    level: 85,
     category: 'Soft Skills',
-    description: 'Digital Marketing, SEO, Content Strategy',
+    description: 'Patent Analysis, Technical Research, Problem Analysis',
   },
   {
     name: 'Communication',
@@ -99,9 +99,9 @@ export const skills: Skill[] = [
     description: 'Technical Writing, Presentations, Client Interaction',
   },
   {
-    name: 'Problem Solving',
-    level: 90,
+    name: 'Innovation',
+    level: 85,
     category: 'Soft Skills',
-    description: 'Analytical Thinking, Critical Analysis, Innovation',
+    description: 'Patent Development, Problem Solving, Creative Solutions',
   },
 ]; 
